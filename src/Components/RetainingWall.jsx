@@ -1,7 +1,20 @@
 import React from "react";
 import Slider from "@mui/material/Slider";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 const RetainingWall = () => {
+  const handleDownloadPDF = () => {
+    const retainingWall = document.getElementById("retainingWall");
+
+    html2canvas(retainingWall).then((canvas) => {
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF();
+      pdf.addImage(imgData, "PNG", 0, 0);
+      pdf.save("retaining_wall.pdf");
+    });
+  };
+
   const [sliderValue, setSliderValue] = React.useState({
     height: 50,
     top: 0,
@@ -66,9 +79,9 @@ const RetainingWall = () => {
   const { stemStyle, baseStyle, shearKeyStyle } = getRetainingWallStyle();
   return (
     <>
-      <section className="font-poppins px-10 py-10">
-        <div className="grid grid-cols-2 ">
-          <div className=" p-4">
+      <section className="flex flex-col justify-center items-center font-poppins  lg:py-10 md:py-10 md:px-20 py-10 px-4 ">
+        <div className="grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 ">
+          <div className=" lg:p-4">
             <div className="flex items-center">
               <img src="logo.png" alt="Logo" className="w-10 h-10 mr-2" />
               <h1 className="text-xl font-bold">Retaining Wall</h1>
@@ -78,12 +91,12 @@ const RetainingWall = () => {
               <p className="text-lg font-medium">LIVE MODEL</p>
               <hr className="w-20 mx-4 my-4  border-black border-t-2" />
             </div>
-            <div className="mt-80">
+            <div className="mt-80" id="retainingWall">
               <div className="retaining-wall" style={stemStyle}></div>
               <div className="retaining-wall" style={baseStyle}></div>
               <div className="retaining-wall" style={shearKeyStyle}></div>
             </div>
-            <div className="mt-40 py-48 ml-20 mr-20">
+            <div className="lg:mt-72">
               <div className="flex items-end  justify-end mt-6">
                 <button className="bg-blue text-white px-6 py-2 rounded-xl">
                   AI Fix
@@ -96,7 +109,7 @@ const RetainingWall = () => {
                   <h6 className=" text-lg">Height</h6>
                   <div className="w-1/2 mx-4">
                     <Slider
-                      className="ml-10"
+                      className="ml-10 "
                       value={sliderValue.height}
                       onChange={(event, newValue) =>
                         handleSliderChange(event, newValue, "height")
@@ -381,7 +394,10 @@ const RetainingWall = () => {
                   <button className="bg-grey font-bold text-black px-4 py-2 rounded-xl">
                     Excel
                   </button>
-                  <button className="bg-black text-white px-4 py-2 rounded-xl">
+                  <button
+                    className="bg-black text-white px-4 py-2 rounded-xl"
+                    onClick={handleDownloadPDF}
+                  >
                     Download PDF
                   </button>
                 </div>
@@ -397,7 +413,7 @@ const RetainingWall = () => {
                 <hr className="w-20 mx-4 my-4  border-black border-t-2" />
               </div>
 
-              <div className="bg-gray-200 bg-opacity-25 rounded-2xl border-gray-200 p-10 my-20 ml-10 mr-20">
+              <div className="bg-gray-200 bg-opacity-25 rounded-2xl border-gray-200 p-10 my-20 ml-10 ">
                 <div className="flex items-center justify-center  gap-2 mt-6">
                   <button className="bg-black text-white px-10 py-2 rounded-xl">
                     Stability
