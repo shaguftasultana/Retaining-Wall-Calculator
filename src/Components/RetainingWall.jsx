@@ -28,6 +28,7 @@ const RetainingWall = () => {
   });
 
   const handleSliderChange = (event, newValue, sliderName) => {
+    console.log(newValue, sliderName, 'updated value')
     setSliderValue((prevSliderValue) => ({
       ...prevSliderValue,
       [sliderName]: newValue,
@@ -48,11 +49,18 @@ const RetainingWall = () => {
     } = sliderValue;
 
     const stemStyle = {
-      height: `${height}px`,
-      top: `${top / 2}px`,
-      bottom: `${bottom / 2}px`,
-      backgroundColor: "#808080",
-      transform: "rotate(90deg)", // Upside down direction
+      // height: `${height}px`,
+      // width: "30px",
+      // borderTop: `${top}px solid #808080`,
+      // borderBottom: `${bottom}px solid #808080`,
+      // backgroundColor: "#808080",
+      // transform: "rotate(0deg)", // Upside down direction
+
+      borderBottom: `${height}px solid #808080`,
+      borderLeft: "0px solid transparent",
+      borderRight: `${bottom}px solid transparent`,
+      height: 0,
+      width: `${top+bottom}px`,
     };
 
     const baseStyle = {
@@ -91,12 +99,12 @@ const RetainingWall = () => {
               <p className="text-lg font-medium">LIVE MODEL</p>
               <hr className="w-20 mx-4 my-4  border-black border-t-2" />
             </div>
-            <div className="mt-80" id="retainingWall">
+            <div className="mt-5" id="retainingWall" style={{}}>
               <div className="retaining-wall" style={stemStyle}></div>
               <div className="retaining-wall" style={baseStyle}></div>
               <div className="retaining-wall" style={shearKeyStyle}></div>
             </div>
-            <div className="lg:mt-72">
+            <div className="lg:mt-5">
               <div className="flex items-end  justify-end mt-6">
                 <button className="bg-blue text-white px-6 py-2 rounded-xl">
                   AI Fix
@@ -115,7 +123,7 @@ const RetainingWall = () => {
                         handleSliderChange(event, newValue, "height")
                       }
                       min={0}
-                      max={100}
+                      max={300}
                       size="medium"
                       sx={{
                         "& .MuiSlider-thumb": {
